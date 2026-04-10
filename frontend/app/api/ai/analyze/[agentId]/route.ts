@@ -1,0 +1,21 @@
+import { NextRequest, NextResponse } from "next/server";
+
+const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
+
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { agentId: string } }
+) {
+  try {
+    const body = await req.json().catch(() => ({}));
+    const res = await fetch(`${BACKEND}/ai/analyze/${params.agentId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 500 });
+  }
+}
