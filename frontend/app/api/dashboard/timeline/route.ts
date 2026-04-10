@@ -4,6 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
 
+const parseTs = (s: unknown): number => {
+  const str = String(s ?? "").replace(" ", "T").replace(/(\.\d{3})\d+/, "$1");
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? 0 : d.getTime();
+};
+
 export async function GET(req: NextRequest) {
   const hours = parseInt(req.nextUrl.searchParams.get("hours") || "24", 10);
 
@@ -54,8 +60,8 @@ export async function GET(req: NextRequest) {
     for (const tx of txs) {
       if (tx.status === "blocked") continue;
 
-      const tsMs = new Date(tx.timestamp as string).getTime();
-      if (isNaN(tsMs)) continue;
+      const tsMs = parseTs(tx.timestamp);
+      if (!tsMs) continue;
 
       const ageMs = nowMs - tsMs;
       if (ageMs > hours * bucketMs) continue;

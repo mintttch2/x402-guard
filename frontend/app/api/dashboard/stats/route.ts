@@ -4,6 +4,13 @@ import { NextResponse } from "next/server";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
 
+// Fix Python timestamp: "2026-04-10 05:48:43.510394+00:00" -> valid JS Date
+const parseTs = (s: unknown): Date => {
+  const str = String(s ?? "").replace(" ", "T").replace(/(\.\d{3})\d+/, "$1");
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? new Date(0) : d;
+};
+
 export async function GET() {
   try {
     const [policiesRes, txAllRes] = await Promise.all([
@@ -31,10 +38,10 @@ export async function GET() {
       t.status === "approved" || t.status === "soft_alert";
 
     const todayTxs = validTxs.filter(
-      (t) => new Date(t.timestamp as string) >= todayStart
+      (t) => parseTs(t.timestamp) >= todayStart
     );
     const monthTxs = validTxs.filter(
-      (t) => new Date(t.timestamp as string) >= monthStart
+      (t) => parseTs(t.timestamp) >= monthStart
     );
 
     const agentIdSet = new Set(policies.map((p) => p.agent_id as string));
@@ -60,7 +67,7 @@ export async function GET() {
       const limit = Math.round((p.daily_limit as number) * 100);
       const agTxs = validTxs.filter(
         (t) => t.agent_id === agId &&
-        new Date(t.timestamp as string) >= todayStart &&
+        parseTs(t.timestamp) >= todayStart &&
         isSpend(t)
       );
       const spent = agTxs.reduce((s, t) => s + Math.round((t.amount as number) * 100), 0);

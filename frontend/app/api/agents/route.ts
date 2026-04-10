@@ -4,6 +4,12 @@ import { NextResponse } from "next/server";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
 
+const parseTs = (s: unknown): Date => {
+  const str = String(s ?? "").replace(" ", "T").replace(/(\.\d{3})\d+/, "$1");
+  const d = new Date(str);
+  return isNaN(d.getTime()) ? new Date(0) : d;
+};
+
 function policyToAgent(
   p: Record<string, unknown>,
   txs: Record<string, unknown>[]
@@ -19,7 +25,7 @@ function policyToAgent(
     t.status === "approved" || t.status === "soft_alert";
 
   const spentToday = agentTxs
-    .filter((t) => isSpend(t) && new Date(t.timestamp as string) >= todayStart)
+    .filter((t) => isSpend(t) && parseTs(t.timestamp) >= todayStart)
     .reduce((s, t) => s + Math.round((t.amount as number) * 100), 0);
 
   const spentTotal = agentTxs

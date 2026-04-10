@@ -33,8 +33,8 @@ export async function GET() {
       let blocked  = 0;
 
       for (const tx of txs) {
-        // Truncate microseconds to milliseconds — JS Date only supports .NNN
-        const tsStr = String(tx.timestamp ?? "").replace(/(\.\d{3})\d+/, "$1");
+        // Fix Python timestamp format: space→T, truncate microseconds to ms
+        const tsStr = String(tx.timestamp ?? "").replace(" ", "T").replace(/(\.\d{3})\d+/, "$1");
         const ts = new Date(tsStr).getTime();
         if (isNaN(ts) || ts < startMs || ts >= endMs) continue;
         const amt = parseFloat(tx.amount) || 0;
