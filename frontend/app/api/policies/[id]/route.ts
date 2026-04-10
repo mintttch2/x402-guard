@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
+const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 
 export async function GET(
   _req: NextRequest,

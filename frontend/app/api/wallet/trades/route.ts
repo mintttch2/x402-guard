@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
+const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 const RPC     = process.env.XLAYER_RPC_URL || "https://testrpc.xlayer.tech";
 
 // Map pay_to addresses/domains to readable names

@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
+const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 
 const parseTs = (s: unknown): number => {
   const str = String(s ?? "").replace(" ", "T").replace(/(\.\d{3})\d+/, "$1");

@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:4402";
+const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 const AGENTS = ["agent-alpha", "agent-beta", "agent-gamma", "agent-delta"];
 
 export async function GET() {
