@@ -40,11 +40,19 @@ One API call before every payment = complete spending control across your entire
 
 ## Screenshots
 
-> Dashboard showing 4 AI agents, real-time spending, and the 7-layer policy engine
+> Live dashboard with 4 AI agents, fleet spend, wallet balances, and guard activity
 
 ![x402 Guard Dashboard](docs/screenshots/dashboard.png)
 
-> **Note:** Clone and run locally to see the live dashboard — see [Run Locally](#local-development) below.
+> Policy editor for per-agent daily / hourly / per-transaction limits
+
+![x402 Guard Policy Editor](docs/screenshots/policy.png)
+
+> Blocked transaction / alert evidence from the alerts view
+
+![x402 Guard Blocked Transaction](docs/screenshots/block-transaction.png)
+
+> **Note:** These images are taken from the live app. Clone and run locally to inspect the interactive dashboard.
 
 ---
 
@@ -66,7 +74,7 @@ One API call before every payment = complete spending control across your entire
 
 🌐 **Dashboard:** http://localhost:3000 (after `npm run dev`)  
 🔗 **API:** http://localhost:8000 (after `python main.py`)  
-📋 **Contract:** `0x295A3807ea95c69d835B44C6DaBA994C8580ef01` (X Layer Testnet)
+📋 **Contract:** [`0x295A3807...ef01`](https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01) (X Layer Testnet)
 
 ---
 
@@ -109,7 +117,7 @@ def check_before_pay(bot_id: str, amount: float, recipient: str) -> bool:
         "agent_id":   bot_id,
         "amount":     amount,
         "pay_to":     recipient,
-        "asset":      "0x4ae46a509f6b1d9056937ba4500cb143933d2dc8",
+        "asset":      "0xcB8BF24c6cE16Ad21D707c9505421a17f2bec79D",
         "network":    "eip155:1952",
         "request_id": str(uuid.uuid4()),
     })
@@ -130,7 +138,7 @@ const response = await fetch("http://localhost:8000/guard/check", {
     agent_id:   "my-arb-bot",
     amount:     25.0,
     pay_to:     "0xRecipient",
-    asset:      "0x4ae46a509f6b1d9056937ba4500cb143933d2dc8",
+    asset:      "0xcB8BF24c6cE16Ad21D707c9505421a17f2bec79D",
     network:    "eip155:1952",
     request_id: crypto.randomUUID(),
   }),
@@ -253,7 +261,40 @@ function logDecision(
 ) external
 ```
 
-View the contract: [`0x295A3807...ef01`](https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01)
+Contract references:
+- Explorer address page: [`0x295A3807ea95c69d835B44C6DaBA994C8580ef01`](https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01)
+- Contract tab: https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01/contract
+- Verification status: currently `unverified` on OKLink (source verification link is available from the contract tab)
+
+### Deploy Your Own GuardLog.sol
+
+```bash
+# 1) Go to the contract workspace
+cd contracts
+npm install
+npx hardhat compile
+
+# 2) Set your deployer and RPC in the shell or .env
+export PRIVATE_KEY=0xyour_private_key
+export XLAYER_RPC_URL=https://testrpc.xlayer.tech
+
+# 3) Deploy to X Layer Testnet
+npx hardhat run scripts/deploy.js --network xlayer-testnet
+
+# 4) Update the backend env file
+# GUARDLOG_CONTRACT_ADDRESS=0xYourNewAddress
+# XLAYER_RPC_URL=https://testrpc.xlayer.tech
+```
+
+### Verify the contract on OKLink
+
+1. Open the contract tab on OKLink.
+2. Click `Verify the contract`.
+3. Submit the exact Solidity compiler version and optimization settings used for deployment.
+4. Re-open the contract tab and confirm the status changes from `unverified` to `verified`.
+
+> The pre-deployed contract at `0x295A38...ef01` is shared for demo purposes.
+> For production, deploy your own instance so your audit log is isolated per environment.
 
 ---
 
@@ -280,7 +321,7 @@ cd x402-guard
 # Backend
 cd backend
 pip install -r requirements.txt
-cp ../.env.example ../.env  # fill in values (OKX keys + GUARDIAN_PRIVATE_KEY)
+cp ../.env.example ../.env
 python main.py               # runs on :8000
 
 # Frontend
@@ -289,19 +330,11 @@ npm install
 npm run dev                  # runs on :3000
 ```
 
-**Required environment variables** (copy from `.env.example`):**
-```env
-# OKX OnchainOS API (get at https://www.okx.com/web3/build/dev-portal)
-OKX_API_KEY=your_api_key
-OKX_SECRET_KEY=your_secret_key
-OKX_PASSPHRASE=your_passphrase
-OKX_PROJECT_ID=your_project_id
-
-# X Layer on-chain logging
-GUARDIAN_PRIVATE_KEY=your_private_key
-XLAYER_RPC_URL=https://testrpc.xlayer.tech
-GUARDLOG_CONTRACT_ADDRESS=0x295A3807ea95c69d835B44C6DaBA994C8580ef01
-```
+Environment setup notes:
+- Copy `.env.example` to `.env` and fill only the values you need.
+- Optional integrations are explicitly marked in `.env.example`.
+- If OKX credentials are empty, the core guard UI still runs; only OKX-specific integrations are disabled.
+- If `GUARDIAN_PRIVATE_KEY` is empty, the app still works locally but on-chain GuardLog writes are disabled.
 
 ### Running the Demo Bot
 
@@ -322,13 +355,56 @@ python demo_bot.py
 ### Running Tests
 
 ```bash
-pip install pytest
+# Install test dependencies
+pip install pytest pytest-asyncio httpx pytest-cov
+
+# Run all tests
 pytest backend/tests/ -v
-# or via Makefile:
-make test
+
+# Run coverage
+pytest backend/tests/ --cov=backend --cov-report=term-missing --cov-report=html
 ```
 
+> Tests use isolated temp data directories and mocked blockchain boundaries — no real X Layer transactions are required.
+> The HTML coverage report is generated in `htmlcov/index.html`.
+
 ---
+
+## Deploy to Fly.io
+
+Backend deployment:
+```bash
+# Install Fly CLI and login first
+fly auth login
+
+# Launch or reuse the existing app config
+fly launch --copy-config --no-deploy
+
+# Set runtime secrets
+fly secrets set GUARDIAN_PRIVATE_KEY=0xyourkey OKX_API_KEY=... OKX_SECRET_KEY=... OKX_PASSPHRASE=... OKX_PROJECT_ID=...
+
+# Deploy
+fly deploy
+```
+
+Recommended checks after deploy:
+```bash
+fly status
+fly logs
+curl https://<your-app>.fly.dev/health
+```
+
+Notes:
+- `fly.toml` is included for the backend deployment target.
+- Frontend can be deployed separately (for example on Vercel) with `BACKEND_URL` pointed at the Fly app URL.
+- Persist `backend/data/` on a Fly volume if you want policy and transaction history to survive restarts.
+
+## Branches
+
+- `main` — primary branch for the live app / normal ongoing development
+- `final-main` — submission-focused branch used to keep the hackathon-ready snapshot and docs polish isolated from active work
+
+For hackathon review, use the tagged submission snapshot: `v1.0.0-hackathon`.
 
 ## OKX Agentic Wallet Integration
 
@@ -383,9 +459,9 @@ Agent: "Register my OKX Agentic Wallet 0x5672...E666 as a sniper bot with $500/d
 ### Option 3: Dashboard (manual)
 
 1. Open [x402 Guard Dashboard](http://localhost:3000)
-2. Click **[ + add bot ]**
-3. Enter Bot ID and spending limits
-4. Done — start sending `/guard/check` requests
+2. Go to the `Policy` page
+3. Create or update the agent policy and spending limits
+4. Save, then start sending `/guard/check` requests
 
 ### MCP Tools Available
 
@@ -442,10 +518,11 @@ async def safe_pay(bot_id: str, amount: float, recipient: str):
 x402 Guard is built natively on **X Layer** — OKX's EVM-compatible Layer 2:
 
 - ✅ Smart contract deployed on X Layer Testnet
-- ✅ Real transactions verified on [OKLink Explorer](https://www.oklink.com/xlayer-test)
+- ✅ Explorer link included: https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01
 - ✅ OKB as native gas token
 - ✅ USDC/USDG as payment asset
 - ✅ OKX Wallet integration
+- ℹ️ Current explorer contract status: `unverified` (verification can be completed from the OKLink contract tab)
 
 ---
 
