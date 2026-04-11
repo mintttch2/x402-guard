@@ -45,7 +45,7 @@ One API call before every payment = complete spending control across your entire
 
 ## Screenshots
 
-> Live dashboard with 4 AI agents, fleet spend, wallet balances, and guard activity
+> Latest production dashboard screenshot from https://x402-guard-deploy.vercel.app
 
 ![x402 Guard Dashboard](docs/screenshots/dashboard.png)
 
