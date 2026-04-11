@@ -1,4 +1,7 @@
 # Fly.io config for x402-guard backend
+# Public production pairing:
+# - Backend:  https://x402-guard.fly.dev
+# - Frontend: https://x402-guard-deploy.vercel.app
 app = "x402-guard"
 primary_region = "sin"  # Singapore — closest to Thailand
 
@@ -9,9 +12,9 @@ primary_region = "sin"  # Singapore — closest to Thailand
   PORT = "8080"
   XLAYER_RPC_URL = "https://testrpc.xlayer.tech"
   XLAYER_CHAIN_ID = "1952"
-  BACKEND_URL = "http://localhost:4402"
+  BACKEND_URL = "https://x402-guard.fly.dev"
   X402_DATA_DIR = "/data"
-  CORS_ORIGINS = "http://localhost:3000,http://localhost:5173"
+  CORS_ORIGINS = "http://localhost:3000,http://localhost:5173,https://x402-guard-deploy.vercel.app"
   NOTIFICATION_COOLDOWN_SECONDS = "60"
 
 [http_service]
