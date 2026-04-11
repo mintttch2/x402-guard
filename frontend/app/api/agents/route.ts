@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { MOCK_POLICIES, MOCK_TRANSACTIONS, isDemoMode } from "@/lib/mock-data";
 
-const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
+const BACKEND = process.env.BACKEND_URL || "http://localhost:8000";
 
 const parseTs = (s: unknown): Date => {
   const str = String(s ?? "").replace(" ", "T").replace(/(\.\d{3})\d+/, "$1");

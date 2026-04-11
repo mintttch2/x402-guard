@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isDemoMode } from "@/lib/mock-data";
 
-const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
+const BACKEND = process.env.BACKEND_URL || "http://localhost:8000";
 
 export async function GET(
   _req: NextRequest,

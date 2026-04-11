@@ -41,6 +41,8 @@ One API call before every payment = complete spending control across your entire
 ## Live Demo
 
 - Demo dashboard: https://x402-guard-deploy.vercel.app
+- Primary supported workflow: local / self-hosted backend + frontend
+- Public Vercel URL is a product walkthrough surface, not the canonical backend runtime
 - Verified GuardLog contract: https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB
 
 ## Screenshots
@@ -377,34 +379,15 @@ pytest backend/tests/ --cov=backend --cov-report=term-missing --cov-report=html
 
 ---
 
-## Deploy to Fly.io
+## Deployment Model
 
-Backend deployment:
-```bash
-# Install Fly CLI and login first
-fly auth login
+x402 Guard is submitted as a **local-first / self-hosted** project.
 
-# Launch or reuse the existing app config
-fly launch --copy-config --no-deploy
+- Recommended runtime: run backend and frontend locally with your own secrets
+- Public Vercel app: product walkthrough / UI demo only
+- Canonical guard logic, wallet access, and OnchainOS integrations are intended to run in an operator-owned environment
 
-# Set runtime secrets
-fly secrets set GUARDIAN_PRIVATE_KEY=0xyourkey OKX_API_KEY=... OKX_SECRET_KEY=... OKX_PASSPHRASE=... OKX_PROJECT_ID=...
-
-# Deploy
-fly deploy
-```
-
-Recommended checks after deploy:
-```bash
-fly status
-fly logs
-curl https://<your-app>.fly.dev/health
-```
-
-Notes:
-- `fly.toml` is included for the backend deployment target.
-- Frontend can be deployed separately (for example on Vercel) with `BACKEND_URL` pointed at the Fly app URL.
-- Persist `backend/data/` on a Fly volume if you want policy and transaction history to survive restarts.
+This keeps bot credentials, policy storage, and OnchainOS access under the user's control instead of relying on a shared public backend.
 
 ## Branches
 

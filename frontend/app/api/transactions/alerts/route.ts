@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { mockAlertTransactions, isDemoMode } from "@/lib/mock-data";
 
-const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
+const BACKEND = process.env.BACKEND_URL || "http://localhost:8000";
 
 export async function GET(req: NextRequest) {
   const limit = parseInt(req.nextUrl.searchParams.get("limit") || "10", 10);

@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { isDemoMode, mockOnchainStats } from "@/lib/mock-data";
 
-const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
+const BACKEND = process.env.BACKEND_URL || "http://localhost:8000";
 
 export async function GET() {
   try {

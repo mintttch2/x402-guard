@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { MOCK_POLICIES, MOCK_STATS, MOCK_TRANSACTIONS, isDemoMode } from "@/lib/mock-data";
 
-const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
+const BACKEND = process.env.BACKEND_URL || "http://localhost:8000";
 
 // Fix Python timestamp: "2026-04-10 05:48:43.510394+00:00" -> valid JS Date
 const parseTs = (s: unknown): Date => {
