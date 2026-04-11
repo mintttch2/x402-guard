@@ -293,6 +293,8 @@ npx hardhat run scripts/deploy.js --network xlayer-testnet
 3. Submit the exact Solidity compiler version and optimization settings used for deployment.
 4. Re-open the contract tab and confirm the status changes from `unverified` to `verified`.
 
+If verification fails with a bytecode mismatch, the deployed address was compiled from different source/settings than your current local contract. In that case, redeploy `contracts/GuardLog.sol` from the current repo, then verify the new address immediately with the exact compiler settings used for deployment.
+
 > The pre-deployed contract at `0x295A38...ef01` is shared for demo purposes.
 > For production, deploy your own instance so your audit log is isolated per environment.
 

@@ -14,3 +14,14 @@ backend/data/policies.json
 .env.onchainos
 backend/routes/seed.py
 docs/SUBMISSION.md
+
+# Local verification / coverage artifacts
+htmlcov/
+.coverage
+
+# Local demo assets not intended for repo
+mockup.html
+render_demo_video.py
+docs/demo_video.mp4
+docs/messageImage_*.jpg
+docs/*:Zone.Identifier
