@@ -176,7 +176,7 @@ export default function LandingPage() {
           <div className="panel-head"><div className="panel-head-dot" />onchain — GuardLog.sol</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
             {[
-              { label: "contract",    val: "0x295A3807…ef01" },
+              { label: "contract",    val: "0xaC4bbC6A…63bB" },
               { label: "network",     val: "X Layer Testnet" },
               { label: "chain id",    val: "1952 (eip155:1952)" },
               { label: "explorer",    val: "oklink.com/x-layer-testnet" },

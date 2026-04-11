@@ -8,7 +8,6 @@ import SpendingChart  from "@/components/SpendingChart";
 import PnlChart       from "@/components/PnlChart";
 import TradeFeed      from "@/components/TradeFeed";
 import AgentCard      from "@/components/AgentCard";
-import AlertFeed      from "@/components/AlertFeed";
 import TopDomains     from "@/components/TopDomains";
 import BlockReasons   from "@/components/BlockReasons";
 import EmergencyPanel from "@/components/EmergencyPanel";
@@ -109,6 +108,10 @@ export default function Dashboard() {
   }, [agents]);
 
   const display  = chartRange === "6h" ? chartData.slice(-6) : chartData;
+  const miniDisplay = display.map((d) => ({
+    ...d,
+    total: Object.entries(d).filter(([k]) => k !== "time").reduce((s, [, v]) => s + (Number(v) || 0), 0),
+  }));
   const monthly  = stats?.totalSpentMonth ?? 0;
   const fleetUSDC = fleetBalance?.usdc ?? 0;
   const fleetOKB  = fleetBalance?.okb  ?? 0;
@@ -210,11 +213,11 @@ export default function Dashboard() {
                 </div>
                 <div style={{ height: 68 }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={display.slice(-12)} margin={{ top: 2, right: 2, left: -30, bottom: 0 }}>
+                    <LineChart data={miniDisplay.slice(-12)} margin={{ top: 2, right: 2, left: -30, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="2 2" stroke="rgba(255,255,255,.04)" />
                       <XAxis dataKey="time" tick={{ fill: "#555", fontSize: 9 }} axisLine={false} tickLine={false} interval="preserveStartEnd" />
                       <YAxis tick={false} axisLine={false} tickLine={false} />
-                      <Line type="monotone" dataKey={agents[0]?.name ?? "Alpha"} stroke="rgba(255,255,255,0.6)" strokeWidth={1.5} dot={false} />
+                      <Line type="monotone" dataKey="total" stroke="rgba(255,255,255,0.6)" strokeWidth={1.5} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>

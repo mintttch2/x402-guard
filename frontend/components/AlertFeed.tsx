@@ -3,8 +3,14 @@
 import { useCallback } from "react";
 import { Transaction, TransactionStatus, formatUSD, formatTimestamp } from "@/lib/api";
 
+interface AlertTransaction extends Transaction {
+  url?: string;
+  agentName?: string;
+  recipient?: string;
+}
+
 interface Props {
-  transactions: Transaction[];
+  transactions: AlertTransaction[];
   loading?: boolean;
   onRefresh?: () => void;
 }
@@ -56,7 +62,7 @@ export default function AlertFeed({ transactions, loading = false, onRefresh }: 
               const { sym, cls } = ICONS[tx.status] ?? { sym: "[?]", cls: "flag" };
             return (
               <div key={tx.id}
-                onClick={() => openUrl(tx.url)}
+                onClick={() => tx.url && openUrl(tx.url)}
                 style={{
                   padding: "8px 12px",
                   borderBottom: "1px solid var(--border)",
@@ -71,7 +77,7 @@ export default function AlertFeed({ transactions, loading = false, onRefresh }: 
                     {sym}
                   </span>
                   <span style={{ fontSize: 10, color: "var(--t2)", flex: 1 }}>
-                    {tx.agentName} · {tx.recipient}
+                    {tx.agentName ?? tx.agent_id} · {tx.recipient ?? tx.pay_to}
                   </span>
                   <span style={{ fontSize: 11, fontWeight: 700, color: "var(--t1)" }}>
                     {formatUSD(tx.amount)}
@@ -102,8 +108,8 @@ export default function AlertFeed({ transactions, loading = false, onRefresh }: 
       }}>
         {[
           { label: "ok",      count: transactions.filter(t => t.status === "approved").length, color: "var(--t2)"   },
-          { label: "flagged", count: transactions.filter(t => t.status === "flagged").length,  color: "var(--amber)" },
-          { label: "denied",  count: transactions.filter(t => t.status === "denied").length,   color: "var(--red)"   },
+          { label: "flagged", count: transactions.filter(t => t.status === "soft_alert").length,  color: "var(--amber)" },
+          { label: "denied",  count: transactions.filter(t => t.status === "blocked").length,   color: "var(--red)"   },
         ].map(({ label, count, color }) => (
           <span key={label} style={{ fontSize: 9, color: "var(--t3)" }}>
             <span style={{ color }}>{count}</span> {label}

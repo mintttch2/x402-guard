@@ -4,7 +4,7 @@
 > Per-bot spending limits · Real-time dashboard · Onchain audit trail · Kill switch
 
 [![X Layer Testnet](https://img.shields.io/badge/network-X%20Layer%20Testnet-blue)](https://www.okx.com/xlayer)
-[![Contract](https://img.shields.io/badge/contract-GuardLog.sol-green)](https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01)
+[![Contract](https://img.shields.io/badge/contract-GuardLog.sol-green)](https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB)
 [![OKX Build X](https://img.shields.io/badge/OKX-Build%20X%20Hackathon-black)](https://www.moltbook.com/m/buildx)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
@@ -37,6 +37,11 @@ AI Bot → POST /guard/check → Policy Engine → APPROVED / SOFT_ALERT / BLOCK
 One API call before every payment = complete spending control across your entire bot fleet.
 
 ---
+
+## Live Demo
+
+- Demo dashboard: https://x402-guard-deploy.vercel.app
+- Verified GuardLog contract: https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB
 
 ## Screenshots
 
@@ -74,7 +79,7 @@ One API call before every payment = complete spending control across your entire
 
 🌐 **Dashboard:** http://localhost:3000 (after `npm run dev`)  
 🔗 **API:** http://localhost:8000 (after `python main.py`)  
-📋 **Contract:** [`0x295A3807...ef01`](https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01) (X Layer Testnet)
+📋 **Contract:** [`0xaC4bbC6A...63bB`](https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB) (X Layer Testnet)
 
 ---
 
@@ -204,11 +209,11 @@ Get on-chain stats from GuardLog.sol.
 
 ### Add Your Bot
 
-1. Click **[ + add bot ]** in the top bar
-2. Select bot type (Sniper / Arbitrage / Prediction / Sentiment / Custom)
+1. Open the `Policy` page in the dashboard
+2. Select an existing bot policy or create a new one
 3. Enter Bot Name, Bot ID, and wallet address (optional)
 4. Set spending limits (Daily / Hourly / Per-tx)
-5. Done — start sending `/guard/check` requests
+5. Save and start sending `/guard/check` requests
 
 ### Connect Wallet
 
@@ -262,9 +267,9 @@ function logDecision(
 ```
 
 Contract references:
-- Explorer address page: [`0x295A3807ea95c69d835B44C6DaBA994C8580ef01`](https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01)
-- Contract tab: https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01/contract
-- Verification status: currently `unverified` on OKLink (source verification link is available from the contract tab)
+- Explorer address page: [`0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB`](https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB)
+- Contract tab: https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB/contract
+- Verification status: `verified` on OKLink for the current repo deployment
 
 ### Deploy Your Own GuardLog.sol
 
@@ -282,7 +287,7 @@ export XLAYER_RPC_URL=https://testrpc.xlayer.tech
 npx hardhat run scripts/deploy.js --network xlayer-testnet
 
 # 4) Update the backend env file
-# GUARDLOG_CONTRACT_ADDRESS=0xYourNewAddress
+# GUARD_CONTRACT_ADDRESS=0xYourNewAddress
 # XLAYER_RPC_URL=https://testrpc.xlayer.tech
 ```
 
@@ -295,8 +300,8 @@ npx hardhat run scripts/deploy.js --network xlayer-testnet
 
 If verification fails with a bytecode mismatch, the deployed address was compiled from different source/settings than your current local contract. In that case, redeploy `contracts/GuardLog.sol` from the current repo, then verify the new address immediately with the exact compiler settings used for deployment.
 
-> The pre-deployed contract at `0x295A38...ef01` is shared for demo purposes.
-> For production, deploy your own instance so your audit log is isolated per environment.
+> Current verified demo deployment: `0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB`
+> Creation tx: `0x8afd173bab463141d57e13c580377b7cec32684ec3115699c8bd19249a7dcb81`
 
 ---
 
@@ -520,11 +525,11 @@ async def safe_pay(bot_id: str, amount: float, recipient: str):
 x402 Guard is built natively on **X Layer** — OKX's EVM-compatible Layer 2:
 
 - ✅ Smart contract deployed on X Layer Testnet
-- ✅ Explorer link included: https://www.oklink.com/x-layer-testnet/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01
+- ✅ Explorer link included: https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB
 - ✅ OKB as native gas token
 - ✅ USDC/USDG as payment asset
 - ✅ OKX Wallet integration
-- ℹ️ Current explorer contract status: `unverified` (verification can be completed from the OKLink contract tab)
+- ✅ Current explorer contract status: `verified`
 
 ---
 

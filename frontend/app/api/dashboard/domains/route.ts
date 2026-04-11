@@ -1,11 +1,13 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+import { MOCK_DOMAINS, MOCK_TRANSACTIONS, isDemoMode } from "@/lib/mock-data";
 
 const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 const AGENTS = ["agent-alpha", "agent-beta", "agent-gamma", "agent-delta"];
 
 export async function GET() {
   try {
+    if (isDemoMode()) return NextResponse.json(MOCK_DOMAINS);
     // Fetch all transactions and aggregate by domain (pay_to)
     const results = await Promise.all(
       AGENTS.map(id =>
@@ -51,6 +53,6 @@ export async function GET() {
 
     return NextResponse.json(sorted);
   } catch {
-    return NextResponse.json([]);
+    return NextResponse.json(isDemoMode() ? MOCK_DOMAINS : []);
   }
 }

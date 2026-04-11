@@ -62,7 +62,11 @@ export default function PolicyPage() {
       });
       if (res.ok) {
         const saved = await res.json();
-        setPolicies(prev => prev.map(p => p.id === saved.id ? saved : p));
+        setPolicies(prev => {
+          const exists = prev.some(p => p.id === saved.id);
+          return exists ? prev.map(p => p.id === saved.id ? saved : p) : [...prev, saved];
+        });
+        setSelectedId(saved.id);
         setMsg("saved");
       } else { setMsg("error"); }
     } catch { setMsg("error"); }

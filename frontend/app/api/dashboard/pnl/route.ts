@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+import { MOCK_TRANSACTIONS, isDemoMode } from "@/lib/mock-data";
 
 const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 
@@ -19,7 +20,7 @@ export async function GET() {
       { cache: "no-store", signal: AbortSignal.timeout(12000) }
     ).catch(() => null);
 
-    const txs: any[] = (res?.ok ? await res.json().catch(() => []) : []) ?? [];
+    const txs: any[] = isDemoMode() ? MOCK_TRANSACTIONS : ((res?.ok ? await res.json().catch(() => []) : []) ?? []);
 
     const now   = Date.now();
     const buckets: PnlPoint[] = [];

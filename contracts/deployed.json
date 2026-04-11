@@ -1,12 +1,12 @@
 {
   "contract": "GuardLog",
-  "address": "0x295A3807ea95c69d835B44C6DaBA994C8580ef01",
-  "txHash": "5db4af8c39c42c851dfc49b45479882d19233cc22a939ab83fc9609ad11d63df",
+  "address": "0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB",
+  "txHash": "0x8afd173bab463141d57e13c580377b7cec32684ec3115699c8bd19249a7dcb81",
   "network": "xlayer-testnet",
   "chainId": 1952,
   "rpcUrl": "https://testrpc.xlayer.tech",
-  "explorerUrl": "https://www.oklink.com/xlayer-test/address/0x295A3807ea95c69d835B44C6DaBA994C8580ef01",
-  "blockNumber": 27104546,
+  "explorerUrl": "https://www.oklink.com/x-layer-testnet/address/0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB",
+  "blockNumber": 27417565,
   "abi": [
     {
       "inputs": [],
@@ -166,5 +166,6 @@
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ]
+  ],
+  "verified": true
 }

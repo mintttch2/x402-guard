@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+import { mockTradeRows, isDemoMode } from "@/lib/mock-data";
 
 const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 const RPC     = process.env.XLAYER_RPC_URL || "https://testrpc.xlayer.tech";
@@ -36,6 +37,7 @@ function tradeType(botType: string, txStatus: string): string {
 
 export async function GET(req: Request) {
   try {
+    if (isDemoMode()) return NextResponse.json(mockTradeRows());
     const limit = new URL(req.url).searchParams.get("limit") ?? "20";
 
     // Get policies for bot name/type lookup
@@ -73,6 +75,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json(trades);
   } catch {
-    return NextResponse.json([]);
+    return NextResponse.json(isDemoMode() ? mockTradeRows() : []);
   }
 }

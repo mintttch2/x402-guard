@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
+import { MOCK_POLICIES, MOCK_STATS, MOCK_TRANSACTIONS, isDemoMode } from "@/lib/mock-data";
 
 const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 
@@ -13,6 +14,7 @@ const parseTs = (s: unknown): Date => {
 
 export async function GET() {
   try {
+    if (isDemoMode()) return NextResponse.json(MOCK_STATS);
     const [policiesRes, txAllRes] = await Promise.all([
       fetch(`${BACKEND}/policies/`, { cache: "no-store" }),
       fetch(`${BACKEND}/guard/transactions/all?limit=500`, { cache: "no-store" }).catch(() => null),
@@ -103,6 +105,7 @@ export async function GET() {
       alertsCount:     softToday.length + blockedToday.length,
     });
   } catch (err) {
+    if (isDemoMode()) return NextResponse.json(MOCK_STATS);
     return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }

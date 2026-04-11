@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
+import { MOCK_POLICIES, MOCK_TRANSACTIONS, isDemoMode } from "@/lib/mock-data";
 
 const BACKEND = process.env.BACKEND_URL || "https://x402-guard.fly.dev";
 
@@ -71,6 +72,12 @@ function policyToAgent(
 
 export async function GET() {
   try {
+    if (isDemoMode()) {
+      const agents = MOCK_POLICIES.map((p) => policyToAgent(p as unknown as Record<string, unknown>, MOCK_TRANSACTIONS as unknown as Record<string, unknown>[]));
+      const order: Record<string, number> = { active: 0, paused: 1, blocked: 2 };
+      agents.sort((a, b) => (order[a.status] ?? 3) - (order[b.status] ?? 3));
+      return NextResponse.json(agents);
+    }
     const [policiesRes, txRes] = await Promise.all([
       fetch(`${BACKEND}/policies/`, { cache: "no-store" }),
       fetch(`${BACKEND}/guard/transactions/all?limit=500`, { cache: "no-store" }).catch(() => null),
@@ -107,6 +114,10 @@ export async function GET() {
 
     return NextResponse.json(agents);
   } catch (err) {
+    if (isDemoMode()) {
+      const agents = MOCK_POLICIES.map((p) => policyToAgent(p as unknown as Record<string, unknown>, MOCK_TRANSACTIONS as unknown as Record<string, unknown>[]));
+      return NextResponse.json(agents);
+    }
     return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }

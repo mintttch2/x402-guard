@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const CONTRACT = "0x295A3807ea95c69d835B44C6DaBA994C8580ef01";
+const CONTRACT = "0xaC4bbC6A7bA52622c1dF942A309CB6D835D363bB";
 const EXPLORER = `https://www.oklink.com/x-layer-testnet/address/${CONTRACT}`;
 
 const NAV: { href: string; label: string; badge?: number }[] = [
