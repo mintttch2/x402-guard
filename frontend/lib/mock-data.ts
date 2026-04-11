@@ -98,41 +98,41 @@ export const MOCK_STATS = {
   activeAgents: 4,
   pausedAgents: 0,
   blockedAgents: 0,
-  totalSpentToday: 25030,
-  totalSpentMonth: 154830,
-  txApprovedToday: 820,
-  txDeniedToday: 273,
+  totalSpentToday: 8450,
+  totalSpentMonth: 8450,
+  txApprovedToday: 6,
+  txDeniedToday: 4,
   txFlaggedToday: 0,
-  alertsCount: 273,
+  alertsCount: 4,
 };
 
 export const MOCK_TIMELINE = [
-  { time: "20:00", "Sniper Bot #1": 1200, "Arbitrage Bot": 1500, "Prediction Bot": 300, "Sentiment Bot": 240 },
-  { time: "21:00", "Sniper Bot #1": 1800, "Arbitrage Bot": 2200, "Prediction Bot": 400, "Sentiment Bot": 300 },
-  { time: "22:00", "Sniper Bot #1": 900, "Arbitrage Bot": 1900, "Prediction Bot": 500, "Sentiment Bot": 260 },
-  { time: "23:00", "Sniper Bot #1": 1100, "Arbitrage Bot": 2100, "Prediction Bot": 450, "Sentiment Bot": 330 },
-  { time: "00:00", "Sniper Bot #1": 1700, "Arbitrage Bot": 2500, "Prediction Bot": 600, "Sentiment Bot": 350 },
-  { time: "01:00", "Sniper Bot #1": 1300, "Arbitrage Bot": 2400, "Prediction Bot": 480, "Sentiment Bot": 310 },
-  { time: "02:00", "Sniper Bot #1": 1600, "Arbitrage Bot": 2600, "Prediction Bot": 520, "Sentiment Bot": 410 },
-  { time: "03:00", "Sniper Bot #1": 1900, "Arbitrage Bot": 3000, "Prediction Bot": 650, "Sentiment Bot": 430 },
-  { time: "04:00", "Sniper Bot #1": 2100, "Arbitrage Bot": 3400, "Prediction Bot": 700, "Sentiment Bot": 500 },
-  { time: "05:00", "Sniper Bot #1": 2300, "Arbitrage Bot": 3600, "Prediction Bot": 760, "Sentiment Bot": 560 },
-  { time: "06:00", "Sniper Bot #1": 2500, "Arbitrage Bot": 3900, "Prediction Bot": 800, "Sentiment Bot": 620 },
-  { time: "07:00", "Sniper Bot #1": 2700, "Arbitrage Bot": 4200, "Prediction Bot": 850, "Sentiment Bot": 700 },
+  { time: "20:00", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "21:00", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "22:00", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "23:00", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "00:00", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "01:00", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "02:00", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "02:49", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 600 },
+  { time: "02:50", "Sniper Bot #1": 0, "Arbitrage Bot": 2150, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "02:52", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 700 },
+  { time: "02:54", "Sniper Bot #1": 0, "Arbitrage Bot": 2800, "Prediction Bot": 0, "Sentiment Bot": 0 },
+  { time: "02:55", "Sniper Bot #1": 0, "Arbitrage Bot": 0, "Prediction Bot": 800, "Sentiment Bot": 0 },
+  { time: "02:57", "Sniper Bot #1": 1400, "Arbitrage Bot": 0, "Prediction Bot": 0, "Sentiment Bot": 0 },
 ];
 
 export const MOCK_DOMAINS = [
-  { domain: "0xArbPool002", amount: 280000, txs: 122 },
-  { domain: "0xSnipePool01", amount: 210000, txs: 122 },
-  { domain: "0xArbPool001", amount: 180000, txs: 64 },
-  { domain: "0xPredOracle01", amount: 100000, txs: 122 },
-  { domain: "0xSnipeTarget002", amount: 84000, txs: 60 },
+  { domain: "0xArbPool001", amount: 2800, txs: 1 },
+  { domain: "0xArbPool002", amount: 2150, txs: 1 },
+  { domain: "0xSnipeTarget002", amount: 1400, txs: 1 },
+  { domain: "0xPredOracle01", amount: 800, txs: 1 },
+  { domain: "0xSentFeed002", amount: 700, txs: 1 },
 ];
 
 export const MOCK_BLOCK_REASONS = [
-  { reason: "per-tx limit exceeded", count: 310, pct: 63, amber: false },
-  { reason: "not on whitelist", count: 183, pct: 37, amber: false },
-  { reason: "on blacklist", count: 1, pct: 1, amber: false },
+  { reason: "per-tx limit exceeded", count: 3, pct: 75, amber: false },
+  { reason: "not on whitelist", count: 1, pct: 25, amber: false },
 ];
 
 export function isDemoMode() {
@@ -182,7 +182,7 @@ export function mockAlertTransactions() {
 
 
 export function mockOnchainStats() {
-  return { approved: 820, soft_alerts: 0, blocked: 273, contract_address: DEMO_CONTRACT, explorer_url: DEMO_EXPLORER, verified: true };
+  return { approved: 6, soft_alerts: 0, blocked: 4, contract_address: DEMO_CONTRACT, explorer_url: DEMO_EXPLORER, verified: true };
 }
 
 export function mockAnalysis(agentId: string) {
