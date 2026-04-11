@@ -391,10 +391,9 @@ This keeps bot credentials, policy storage, and OnchainOS access under the user'
 
 ## Branches
 
-- `main` — primary branch for the live app / normal ongoing development
-- `final-main` — submission-focused branch used to keep the hackathon-ready snapshot and docs polish isolated from active work
+- `main` — primary branch and canonical submission branch
 
-For hackathon review, use the tagged submission snapshot: `v1.0.0-hackathon`.
+For hackathon review, use the tagged submission snapshot on `main`: `v1.0.0-hackathon`.
 
 ## OKX Agentic Wallet Integration
 
